@@ -23,7 +23,7 @@ def find_angle_to_object(x1,y1,x2,y2):
                                   object_center[0] - frame_center[0]))
     
     return angle
-model = YOLO("zed_right_24_06_15.pt")
+    model = YOLO("zed_right_24_06_15.pt")
 
 
 

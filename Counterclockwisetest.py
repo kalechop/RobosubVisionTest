@@ -3,7 +3,7 @@ import cv2
 import cvzone
 import math
 
-img = "counterclockwise.png"
+img = "IMG_2140.mov"
 model = YOLO("zed_right_24_06_15.pt")
 results = model(img)[0]
 
