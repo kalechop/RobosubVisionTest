@@ -5,7 +5,7 @@ import math
 
 img = "gate.png"
 model = YOLO("best.pt")
-frame = cv2.resize(img, (640, 640))
+#frame = cv2.resize(img, (640, 640))
 
 cap = cv2.VideoCapture(0)
 
@@ -25,7 +25,7 @@ for r in results:
         x_degrees = (centroid_x / 640) * horizontal_fov_degrees  # Use resized width
         y_degrees = (centroid_y / 640) * vertical_fov_degrees    # Use resized height
      
-        cv2.circle(img, (centroid_x, centroid_y), 20, (36,255,12), -1)
+        #cv2.circle(img, (centroid_x, centroid_y), 20, (36,255,12), -1)
        # print('Center: ({}, {})'.format(cx,cy))
        # cv2.putText(img, ())
 

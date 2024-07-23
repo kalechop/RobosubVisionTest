@@ -14,7 +14,7 @@ def find_angle_to_object(x1,y1,x2,y2):
     # Replace this with your actual calculation based on object coordinates
     # For example, you might calculate the angle based on the center of the object
     # and the center of the frame.
-    frame_center = (640, 360)
+    frame_center = (640, 640)
     object_center = ((x1 + x2) // 2), ((y1 + y2 )// 2)
                      
     
