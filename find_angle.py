@@ -2,8 +2,8 @@ from ultralytics import YOLO
 import numpy as np 
 import cv2
 
-
-model = YOLO('best.pt')
+#results = model(source=0, show=True, conf=0.3, save=True)
+#results = model(source=frame, show=True, conf=0.3, save=True)
 
 def find_angle_to_object(x1,y1,x2,y2):
     # Replace this with your actual calculation based on object coordinates
@@ -17,16 +17,49 @@ def find_angle_to_object(x1,y1,x2,y2):
     angle = np.degrees(np.arctan2(object_center[1] - frame_center[1], 
                                   object_center[0] - frame_center[0]))
     
-    print(angle)
+    print(angle)    
 
-vid = cv2.VideoCapture(0)   
+model = YOLO('best.pt')
+video = cv2.VideoCapture(0)   
 
-#results = model(source=0, show=True, conf=0.3, save=True)
 
-while (True): 
-    ret, frame = vid.read() 
-    cv2.imshow('Inference', frame)
+while (video.isOpened()): 
+    # Capture the video frame by frame
+    success, frame = video.read()
     results = model(source=frame, show=True, conf=0.3, save=True)
+    
+    for r in results: 
+        for box in r.boxes.xyxy: 
+            centroid_x = int((box[0] + box[2]) / 2)
+            centroid_y = int((box[1] + box[3]) / 2)
+        
+            print("Centroid: ", (centroid_x, centroid_y))
+            frame_center = (320, 320)
+            object_center = ((box[0] + box[1]) // 2), ((box[2] + box[3] )// 2)
+                     
+    
+            # Calculate the angle
+            angle = np.degrees(np.arctan2(object_center[1] - frame_center[1], 
+                                  object_center[0] - frame_center[0]))   
+                
+
+            cv2.putText(frame, angle, (100, 300), cv2.FONT_HERSHEY_SIMPLEX, 5, (255,50,50), 10)
+
+    # Resize the frames
+    frame = cv2.resize(frame, (640, 640))
+    
+    # Put text on a certain point of the frame from the webcam output
+    cv2.putText(frame, "LIVE", (100, 300), cv2.FONT_HERSHEY_SIMPLEX, 5, (255,50,50), 10)
+    
+
+    
+    
+    # Show the frame on webcam ouput with title
+    cv2.imshow("Inference", frame)
+    # Quit when you press the letter 'q'
+    if cv2.waitKey(1) & 0xFF ==ord('q'): 
+        break
+    
     
     
     """
@@ -40,17 +73,9 @@ while (True):
     
     """
     
-    
-    
-    
-    
-    
-    
-    
-    if cv2.waitKey(1) & 0xFF == ord('q'): 
-        break
 
-vid.release() 
+
+video.release() 
 cv2.destroyAllWindows() 
 
     
